@@ -4,10 +4,14 @@
 	"/dungeon": [
 		"src/routes/dungeon/+page.js"
 	],
+	"/gameover": [],
 	"/login": [],
 	"/quest": [
 		"src/routes/quest/+page.js"
 	],
 	"/signup": [],
+	"/stage_clear": [
+		"src/routes/stage_clear/+page.js"
+	],
 	"/start": []
 }

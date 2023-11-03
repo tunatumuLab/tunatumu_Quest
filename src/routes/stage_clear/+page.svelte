@@ -2,23 +2,27 @@
 	import Button from '$lib/component/button.svelte';
 	import { page } from '$app/stores';
 	import { auth, firestore, app } from '$lib/firebase.js';
-	import { doc, getDoc } from 'firebase/firestore';
+	import { doc, getDoc, updateDoc } from 'firebase/firestore';
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { marked } from 'marked';
+	import { text } from '@sveltejs/kit';
+
 	export let data;
+	let dungeonData;
+    let nowQuest;
 	console.log(data.id);
-	let dungeonData = null;
-	let mapName = ['森', '沼', '洞窟'];
-	let mapImage = ['mori.png', 'numa.png', 'hole.png'];
 
 	onMount(async () => {
 		onAuthStateChanged(auth, async (user) => {
 			console.log(user);
 			if (user) {
+                console.log(data.id)
 				const userDungeonData = await getDoc(doc(firestore, 'dungeon', user.uid, 'list', data.id));
 				dungeonData = { ...userDungeonData.data() };
-                console.log(dungeonData)
+				nowQuest = dungeonData.stages[dungeonData.progress-1];
+				await getNewQuestion();
 			} else {
 				goto('/');
 			}
@@ -29,32 +33,14 @@
 <div class="content-area">
 	{#if dungeonData != null}
 		<div class="animation-area">
-			<div class="stage-area">
-				{#each dungeonData.stages.slice(dungeonData.progress < 3 ? 0 : dungeonData.progress, 5) as stage, index}
-					<div class="map-element">
-						<p>{stage}</p>
-						<img src={'/map/' + mapImage[dungeonData.progress < 3 ? index % 3 : dungeonData.progress + (index % 3)]} class="map-image"/>
-						{#if dungeonData.progress == index}
-							<img src="/yuusya1.png" width="64" height="64" class="chara-img" />
-						{/if}
-					</div>
-				{/each}
-			</div>
+			<img src="/yuusya1.png" class="chara-img" />
 		</div>
 		<div class="description-area">
-			<p class="description-small">次は</p>
-			<p class="description">
-				{dungeonData.stages[dungeonData.progress] + 'の' + mapName[dungeonData.progress % 3]}
-			</p>
-			<p class="description-small">です</p>
-			<a class="button" href={`/quest?id=${data.id}`}>
-				<Button
-					text={dungeonData.stages[dungeonData.progress] +
-						'の' +
-						mapName[dungeonData.progress % 3] +
-						'に進む'}
-				/>
-			</a>
+			<p class="description">{nowQuest}</p>
+			<p class="description">をクリアしました！</p>
+            <a  href={`/dungeon?id=${data.id}`}>
+                <Button text="次のダンジョンへ" />
+            </a>
 		</div>
 	{/if}
 </div>
@@ -76,6 +62,12 @@
 	.animation-area {
 		height: 30vh;
 		background-image: url(/road_of_dungeon.png);
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		align-content: center;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.description-area {
@@ -86,13 +78,12 @@
 		justify-content: center;
 		flex-direction: column;
 		display: flex;
-        overflow-y: auto;
+		position: relative;
 	}
 
 	.stage-area {
 		display: flex;
 		flex-direction: row;
-        justify-content: space-around;
 	}
 
 	.description {
@@ -111,27 +102,25 @@
 		transform: translateX(7px) translateY(7px);
 	}
 
-	.map-element {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: flex-start;
-		flex-wrap: nowrap;
-        gap:1px;
-        height: 15%;
-        width: 15%;
+	.now-quest {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 5px;
 	}
 
-    .chara-img {
+	.chara-img {
+		width: 96px;
+		height: 96px;
 		animation: move 1s steps(2, end) infinite alternate;
 	}
 
 	@keyframes move {
 		0% {
-			transform: translateY(8px);
+			transform: translateY(16px);
 		}
 		100% {
-			transform: translateY(-8px);
+			transform: translateY(-16px);
 		}
 	}
 </style>

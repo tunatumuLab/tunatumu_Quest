@@ -9,7 +9,9 @@ export const nodes = [
 	() => import('./nodes/5'),
 	() => import('./nodes/6'),
 	() => import('./nodes/7'),
-	() => import('./nodes/8')
+	() => import('./nodes/8'),
+	() => import('./nodes/9'),
+	() => import('./nodes/10')
 ];
 
 export const server_loads = [];
@@ -18,10 +20,12 @@ export const dictionary = {
 		"/": [2],
 		"/create_dungeon": [3],
 		"/dungeon": [4],
-		"/login": [5],
-		"/quest": [6],
-		"/signup": [7],
-		"/start": [8]
+		"/gameover": [5],
+		"/login": [6],
+		"/quest": [7],
+		"/signup": [8],
+		"/stage_clear": [9],
+		"/start": [10]
 	};
 
 export const hooks = {

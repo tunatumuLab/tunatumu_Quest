@@ -12,7 +12,7 @@
 	const generate = async () => {
 		console.log(goal);
 		if (goal != null) {
-			const response = await (await fetch('https://tunatumuquest-renderapi.onrender.com/create-stages/', {
+			const response = await (await fetch('https://tunatumuquest-renderapi.onrender.com/create-stages', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

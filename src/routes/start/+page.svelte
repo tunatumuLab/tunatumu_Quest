@@ -50,10 +50,12 @@
 		flex-direction: column;
 		justify-content: center;
         gap: 16px;
+        align-items: center;
 	}
 
     .dungeon-list {
         max-height: 50vh;
         background-color: white;
+        width: 90%;
     }
 </style>

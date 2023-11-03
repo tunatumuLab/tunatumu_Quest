@@ -28,6 +28,7 @@
 declare module '$env/static/private' {
 	export const npm_package_devDependencies_vitest: string;
 	export const USER: string;
+	export const npm_package_dependencies__sveltejs_adapter_node: string;
 	export const npm_config_version_commit_hooks: string;
 	export const npm_config_user_agent: string;
 	export const npm_config_bin_links: string;
@@ -64,6 +65,7 @@ declare module '$env/static/private' {
 	export const npm_package_scripts_lint: string;
 	export const npm_config_registry: string;
 	export const TERM: string;
+	export const npm_package_scripts_start: string;
 	export const npm_config_ignore_scripts: string;
 	export const PATH: string;
 	export const NODE: string;
@@ -133,6 +135,7 @@ declare module '$env/dynamic/private' {
 	export const env: {
 		npm_package_devDependencies_vitest: string;
 		USER: string;
+		npm_package_dependencies__sveltejs_adapter_node: string;
 		npm_config_version_commit_hooks: string;
 		npm_config_user_agent: string;
 		npm_config_bin_links: string;
@@ -169,6 +172,7 @@ declare module '$env/dynamic/private' {
 		npm_package_scripts_lint: string;
 		npm_config_registry: string;
 		TERM: string;
+		npm_package_scripts_start: string;
 		npm_config_ignore_scripts: string;
 		PATH: string;
 		NODE: string;

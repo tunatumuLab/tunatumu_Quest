@@ -7,23 +7,28 @@
     onMount(() => {
         windowHeight = window.parent.screen.height;
         windowWidth = window.parent.screen.width;
+        console.log(windowHeight, windowWidth)
         
         if(windowHeight > windowWidth){
             if(windowWidth* 1.61 < windowHeight){
+                console.log(1)
                 gameArea.style.height = windowWidth* 1.61 + "px";
                 gameArea.style.width = windowWidth + "px"
             }
             else{
+                console.log(2)
                 gameArea.style.height = windowHeight + "px";
                 gameArea.style.width = windowHeight/1.61 + "px"
             }
         }
         else {
-            if(windowHeight* 1.61 < windowWidth){
+            if(windowHeight < windowWidth * 1.61){
+                console.log(3)
                 gameArea.style.height = windowHeight + "px"
-                gameArea.style.width = windowHeight * 1.61 + "px";
+                gameArea.style.width = windowHeight / 1.61 + "px";
             }
             else {
+                console.log(4)
                 gameArea.style.height = windowHeight + "px"
                 gameArea.style.width = windowHeight/1.61 + "px";
             }

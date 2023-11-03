@@ -54,6 +54,6 @@
 	.game-area {
 		aspect-ratio: 9/16;
 		background-color: white;
-		background-image: url(first_background.png);
+		background-image: url(/first_background.png);
 	}
 </style>

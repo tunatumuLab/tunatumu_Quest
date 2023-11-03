@@ -34,7 +34,7 @@
         {/each}
     </div>
 
-	<a href="#">
+	<a href="/create_dungeon">
         <Button text="新しいダンジョンを作る"></Button>
     </a>
 </div>

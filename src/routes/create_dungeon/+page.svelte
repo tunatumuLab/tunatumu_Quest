@@ -10,10 +10,10 @@
 
 <div class="content-area">
 	<form class="form-area" on:submit={generate}>
-		<label>email: </label>
+		<label>あたらしい目標を入力してさい: </label>
 		<input bind:value={goal} />
 		<a class="button" on:click={generate}>
-			<Button text="作成" />
+			<Button text="作成!" />
 		</a>
 	</form>
 </div>

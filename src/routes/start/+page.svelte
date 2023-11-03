@@ -28,7 +28,7 @@
 	<p class="subtitle">続きから</p>
     <div class="dungeon-list">
         {#each dungeons as dungeon}
-            <a>
+            <a href={`/dungeon?id=${dungeon.id}`}>
                 <p>{dungeon.name}</p>
             </a>
         {/each}

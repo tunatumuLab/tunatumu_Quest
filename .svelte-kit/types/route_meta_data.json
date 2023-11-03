@@ -1,7 +1,13 @@
 {
 	"/": [],
 	"/create_dungeon": [],
+	"/dungeon": [
+		"src/routes/dungeon/+page.js"
+	],
 	"/login": [],
+	"/quest": [
+		"src/routes/quest/+page.js"
+	],
 	"/signup": [],
 	"/start": []
 }

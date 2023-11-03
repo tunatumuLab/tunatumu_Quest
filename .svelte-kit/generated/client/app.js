@@ -7,7 +7,9 @@ export const nodes = [
 	() => import('./nodes/3'),
 	() => import('./nodes/4'),
 	() => import('./nodes/5'),
-	() => import('./nodes/6')
+	() => import('./nodes/6'),
+	() => import('./nodes/7'),
+	() => import('./nodes/8')
 ];
 
 export const server_loads = [];
@@ -15,9 +17,11 @@ export const server_loads = [];
 export const dictionary = {
 		"/": [2],
 		"/create_dungeon": [3],
-		"/login": [4],
-		"/signup": [5],
-		"/start": [6]
+		"/dungeon": [4],
+		"/login": [5],
+		"/quest": [6],
+		"/signup": [7],
+		"/start": [8]
 	};
 
 export const hooks = {

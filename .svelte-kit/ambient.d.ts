@@ -72,6 +72,7 @@ declare module '$env/static/private' {
 	export const npm_package_name: string;
 	export const WT_SESSION: string;
 	export const XDG_RUNTIME_DIR: string;
+	export const npm_package_dependencies_marked: string;
 	export const npm_package_scripts_test_integration: string;
 	export const DISPLAY: string;
 	export const npm_package_scripts_test_unit: string;
@@ -179,6 +180,7 @@ declare module '$env/dynamic/private' {
 		npm_package_name: string;
 		WT_SESSION: string;
 		XDG_RUNTIME_DIR: string;
+		npm_package_dependencies_marked: string;
 		npm_package_scripts_test_integration: string;
 		DISPLAY: string;
 		npm_package_scripts_test_unit: string;

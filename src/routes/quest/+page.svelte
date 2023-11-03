@@ -6,13 +6,16 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { marked } from 'marked';
+
 	export let data;
 	console.log(data.id);
 	let dungeonData = null;
 	let nowQuest = '';
 	let questions = [];
 	let monsterList = ['monster_1.png', 'monster_2.png', 'monster_3.png'];
-	let searchingFlag = false
+	let searchingFlag = false;
+	let markdownElm;
 
 	onMount(async () => {
 		onAuthStateChanged(auth, async (user) => {
@@ -35,10 +38,11 @@
 					})
 				).json();
 				console.log(response);
-				const questionRes = JSON.parse(response.questions)
+				// markdownElm.innerHTML = marked.parse(response.questions);
+				const questionRes = JSON.parse(response.questions);
 				searchingFlag = false;
 				//questions = [...response];
-				console.log("->", questionRes)
+				console.log('->', questionRes);
 			} else {
 				goto('/');
 			}
@@ -49,11 +53,15 @@
 <div class="content-area">
 	{#if dungeonData != null}
 		<div class="animation-area">
-			<img src={`/monster/1/${monsterList[0]}`} />
+			{#if searchingFlag}
+				<img src="/yuusya1.png" width="128" height="128" />
+			{:else}
+				<img src={`/monster/1/${monsterList[0]}`} width="128" height="128" />
+			{/if}
 		</div>
 		<div class="description-area">
 			{#if searchingFlag}
-				<p>冒険中・・・</p>
+				<p class="description">冒険中・・・</p>
 			{:else}
 				<p class="now-quest">{nowQuest}</p>
 				<p class="description-small">問題</p>
@@ -61,6 +69,7 @@
 			{/if}
 		</div>
 	{/if}
+	<div bind:this={markdownElm} />
 </div>
 
 <style>

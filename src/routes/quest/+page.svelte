@@ -23,6 +23,7 @@
 	let difficulity = 0;
 	let userData;
 	let monsterElement;
+	let damageEffectElement;
 
 	const getNewQuestion = async () => {
 		searchingFlag = true;
@@ -50,7 +51,7 @@
 			console.log('OK');
 			monsterHP = monsterHP - 1;
 			if (monsterHP == 0) {
-				monsterElement.animate(
+				const animate = (monsterElement.animate(
 					{
 						opacity: 0
 					},
@@ -58,19 +59,20 @@
 						fill: 'forwards',
 						duration: 1000
 					}
-				);
-				difficulity++;
-				questionNum = 0;
-				if (difficulity == 3) {
-					console.log(data.id);
-					await updateDoc(doc(firestore, 'dungeon', userData.uid, 'list', data.id), {
-						progress: dungeonData.progress + 1
-					});
-					goto(`/stage_clear?id=${data.id}`);
-				} else {
-					await getNewQuestion();
-				}
-				monsterHP = 3;
+				).onfinish = async function () {
+					difficulity++;
+					questionNum = 0;
+					if (difficulity == 3) {
+						console.log(data.id);
+						await updateDoc(doc(firestore, 'dungeon', userData.uid, 'list', data.id), {
+							progress: dungeonData.progress + 1
+						});
+						goto(`/stage_clear?id=${data.id}`);
+					} else {
+						await getNewQuestion();
+					}
+					monsterHP = 3;
+				});
 			} else {
 				questionNum++;
 			}
@@ -84,6 +86,35 @@
 		}
 
 		console.log(monsterHP, questions[questionNum]);
+	};
+
+	const submitAnswer = async (selectIndex) => {
+		let gifSrc = 'myAnimation.gif';
+		if (questions[questionNum].answer == selectIndex) {
+			gifSrc = "/effect.gif"
+		}
+
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', gifSrc, true);
+		xhr.responseType = 'arraybuffer';
+
+		xhr.onload = function (e) {
+			const blob = new Blob([this.response], { type: 'image/gif' });
+			const url = URL.createObjectURL(blob);
+
+			const img = document.createElement('img');
+			img.src = url;
+			img.style.position = 'absolute';
+			img.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+			img.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
+			document.body.appendChild(img);
+
+			img.addEventListener('animationend', async function () {
+				await answerQuestion(selectIndex);
+			});
+		};
+
+		xhr.send();
 	};
 
 	onMount(async () => {
@@ -151,7 +182,7 @@
 					<p class="description-small">{questions[questionNum].question}</p>
 					<div class="choise-area">
 						{#each questions[questionNum].choices as choice, choiceIndex}
-							<a class="button" on:click={() => answerQuestion(choiceIndex)}>
+							<a class="button" on:click={() => submitAnswer(choiceIndex)}>
 								<Button text={choiceIndex + ' : ' + choice} />
 							</a>
 						{/each}
@@ -160,7 +191,7 @@
 			{/if}
 		</div>
 	{/if}
-	<div bind:this={markdownElm} />
+	<div bind:this={damageEffectElement} />
 </div>
 
 <style>

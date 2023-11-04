@@ -27,6 +27,7 @@
 				name: goal,
 				progress: 0
 			});
+			goto('/start');
 		}
 	};
 

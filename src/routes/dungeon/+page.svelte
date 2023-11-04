@@ -30,11 +30,11 @@
 	{#if dungeonData != null}
 		<div class="animation-area">
 			<div class="stage-area">
-				{#each dungeonData.stages.slice(dungeonData.progress < 3 ? 0 : dungeonData.progress, 5) as stage, index}
+				{#each dungeonData.stages.slice(dungeonData.progress, 5) as stage, index}
 					<div class="map-element">
 						<p>{stage}</p>
-						<img src={'/map/' + mapImage[dungeonData.progress < 3 ? index % 3 : dungeonData.progress + (index % 3)]} class="map-image"/>
-						{#if dungeonData.progress == index}
+						<img src={'/map/' + mapImage[dungeonData.progress < 3 ? index % 3 : (dungeonData.progress + index)%3]} class="map-image"/>
+						{#if index==0 }
 							<img src="/yuusya1.png" width="64" height="64" class="chara-img" />
 						{/if}
 					</div>

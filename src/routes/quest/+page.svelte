@@ -24,6 +24,7 @@
 	let userData;
 	let monsterElement;
 	let damageEffectElement;
+	let animeElement;
 
 	const getNewQuestion = async () => {
 		searchingFlag = true;
@@ -89,29 +90,46 @@
 	};
 
 	const submitAnswer = async (selectIndex) => {
-		let gifSrc = 'myAnimation.gif';
+		let gifSrc = '/effect2.gif';
 		if (questions[questionNum].answer == selectIndex) {
-			gifSrc = "/effect.gif"
+			gifSrc = '/effect.gif';
 		}
 
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', gifSrc, true);
 		xhr.responseType = 'arraybuffer';
 
-		xhr.onload = function (e) {
+		xhr.onload = async function (e) {
 			const blob = new Blob([this.response], { type: 'image/gif' });
 			const url = URL.createObjectURL(blob);
 
 			const img = document.createElement('img');
 			img.src = url;
 			img.style.position = 'absolute';
-			img.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
-			img.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
+			console.log(animeElement.innerWidth);
+			img.style.right = Math.floor(Math.random() * animeElement.clientWidth) + 'px';
+			img.style.bottom = Math.floor(Math.random() * animeElement.clientHeight) + 'px';
 			document.body.appendChild(img);
 
-			img.addEventListener('animationend', async function () {
-				await answerQuestion(selectIndex);
-			});
+			// GIFが読み込まれたときに実行されるコード
+			img.onload = function () {
+				// GIFが読み込まれたら再生を開始
+				playGif();
+			};
+
+			// GIF再生を開始する関数
+			function playGif() {
+				img.style.display = 'block'; // GIFを表示
+				// GIFアニメーションの終了までの時間を取得
+				const animationDuration = img.duration * 500;
+
+				// GIFアニメーションの終了後に実行する関数
+				setTimeout(async () => {
+					// ここで任意の処理を行います
+					console.log('GIFアニメーションが終了しました');
+					answerQuestion(selectIndex)
+				}, animationDuration);
+			}
 		};
 
 		xhr.send();
@@ -135,7 +153,7 @@
 
 <div class="content-area">
 	{#if dungeonData != null}
-		<div class="animation-area">
+		<div class="animation-area" bind:this={animeElement}>
 			{#if searchingFlag}
 				<img src="/yuusya1.png" class="chara-img" />
 			{:else}
@@ -182,7 +200,7 @@
 					<p class="description-small">{questions[questionNum].question}</p>
 					<div class="choise-area">
 						{#each questions[questionNum].choices as choice, choiceIndex}
-							<a class="button" on:click={() => submitAnswer(choiceIndex)}>
+							<a class="button" on:click={() => answerQuestion(choiceIndex)}>
 								<Button text={choiceIndex + ' : ' + choice} />
 							</a>
 						{/each}

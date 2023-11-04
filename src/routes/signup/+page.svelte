@@ -19,7 +19,7 @@
 		<label>email: </label>
 		<input bind:value={email} />
 		<label>password</label>
-		<input bind:value={password} />
+		<input bind:value={password} type="password" />
 		<a class="button" on:click={signup}>
 			<Button on:click={signup} text="新規登録"/>
 		</a>

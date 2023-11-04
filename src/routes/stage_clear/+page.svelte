@@ -22,7 +22,6 @@
 				const userDungeonData = await getDoc(doc(firestore, 'dungeon', user.uid, 'list', data.id));
 				dungeonData = { ...userDungeonData.data() };
 				nowQuest = dungeonData.stages[dungeonData.progress-1];
-				await getNewQuestion();
 			} else {
 				goto('/');
 			}

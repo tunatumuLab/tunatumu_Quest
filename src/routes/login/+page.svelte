@@ -17,7 +17,7 @@
 		<label>email: </label>
 		<input bind:value={email} />
 		<label>password</label>
-		<input bind:value={password} />
+		<input bind:value={password} type="password"/>
 		<a class="button" on:click={login}>
 			<Button text="ログイン" />
 		</a>
